@@ -1,0 +1,374 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============ fuwari 主题变量（light, dark） ============ */
+:root {
+	--radius-large: 1rem;
+	--content-delay: 150ms;
+	--page-width: 75rem;
+	--hue: 250;
+}
+
+:root {
+	--primary: oklch(0.7 0.14 var(--hue));
+	--page-bg: oklch(0.95 0.01 var(--hue));
+	--card-bg: white;
+	--btn-content: oklch(0.55 0.12 var(--hue));
+	--btn-regular-bg: oklch(0.95 0.025 var(--hue));
+	--btn-regular-bg-hover: oklch(0.9 0.05 var(--hue));
+	--btn-regular-bg-active: oklch(0.85 0.08 var(--hue));
+	--btn-plain-bg-hover: oklch(0.95 0.025 var(--hue));
+	--btn-plain-bg-active: oklch(0.98 0.01 var(--hue));
+	--btn-card-bg-hover: oklch(0.98 0.005 var(--hue));
+	--btn-card-bg-active: oklch(0.9 0.03 var(--hue));
+	--enter-btn-bg: var(--btn-regular-bg);
+	--enter-btn-bg-hover: var(--btn-regular-bg-hover);
+	--enter-btn-bg-active: var(--btn-regular-bg-active);
+	--deep-text: oklch(0.25 0.02 var(--hue));
+	--title-active: oklch(0.6 0.1 var(--hue));
+	--line-divider: rgba(0, 0, 0, 0.08);
+	--line-color: rgba(0, 0, 0, 0.1);
+	--meta-divider: rgba(0, 0, 0, 0.2);
+	--inline-code-bg: var(--btn-regular-bg);
+	--inline-code-color: var(--btn-content);
+	--selection-bg: oklch(0.9 0.05 var(--hue));
+	--codeblock-selection: oklch(0.4 0.08 var(--hue));
+	--codeblock-bg: oklch(0.17 0.015 var(--hue));
+	--codeblock-topbar-bg: oklch(0.3 0.02 var(--hue));
+	--license-block-bg: rgba(0, 0, 0, 0.03);
+	--link-underline: oklch(0.93 0.04 var(--hue));
+	--link-hover: oklch(0.95 0.025 var(--hue));
+	--link-active: oklch(0.9 0.05 var(--hue));
+	--float-panel-bg: white;
+	--scrollbar-bg: rgba(0, 0, 0, 0.4);
+	--scrollbar-bg-hover: rgba(0, 0, 0, 0.5);
+	--scrollbar-bg-active: rgba(0, 0, 0, 0.6);
+	--admonitions-color-tip: oklch(0.7 0.14 180);
+	--admonitions-color-note: oklch(0.7 0.14 250);
+	--admonitions-color-important: oklch(0.7 0.14 310);
+	--admonitions-color-warning: oklch(0.7 0.14 60);
+	--admonitions-color-caution: oklch(0.6 0.2 25);
+	--toc-badge-bg: oklch(0.89 0.05 var(--hue));
+	--toc-btn-hover: oklch(0.926 0.015 var(--hue));
+	--toc-btn-active: oklch(0.9 0.015 var(--hue));
+	--toc-item-active: oklch(0.7 0.13 var(--hue));
+}
+
+:root.dark {
+	--primary: oklch(0.75 0.14 var(--hue));
+	--page-bg: oklch(0.16 0.014 var(--hue));
+	--card-bg: oklch(0.23 0.015 var(--hue));
+	--btn-content: oklch(0.75 0.1 var(--hue));
+	--btn-regular-bg: oklch(0.33 0.035 var(--hue));
+	--btn-regular-bg-hover: oklch(0.38 0.04 var(--hue));
+	--btn-regular-bg-active: oklch(0.43 0.045 var(--hue));
+	--btn-plain-bg-hover: oklch(0.3 0.035 var(--hue));
+	--btn-plain-bg-active: oklch(0.27 0.025 var(--hue));
+	--btn-card-bg-hover: oklch(0.3 0.03 var(--hue));
+	--btn-card-bg-active: oklch(0.35 0.035 var(--hue));
+	--deep-text: oklch(0.92 0.01 var(--hue));
+	--title-active: oklch(0.7 0.1 var(--hue));
+	--line-divider: rgba(255, 255, 255, 0.08);
+	--line-color: rgba(255, 255, 255, 0.1);
+	--meta-divider: rgba(255, 255, 255, 0.2);
+	--selection-bg: oklch(0.4 0.08 var(--hue));
+	--codeblock-bg: oklch(0.17 0.015 var(--hue));
+	--codeblock-topbar-bg: oklch(0.12 0.015 var(--hue));
+	--license-block-bg: var(--codeblock-bg);
+	--link-underline: oklch(0.4 0.08 var(--hue));
+	--link-hover: oklch(0.4 0.08 var(--hue));
+	--link-active: oklch(0.35 0.07 var(--hue));
+	--float-panel-bg: oklch(0.19 0.015 var(--hue));
+	--scrollbar-bg: rgba(255, 255, 255, 0.4);
+	--scrollbar-bg-hover: rgba(255, 255, 255, 0.5);
+	--scrollbar-bg-active: rgba(255, 255, 255, 0.6);
+	--admonitions-color-tip: oklch(0.75 0.14 180);
+	--admonitions-color-note: oklch(0.75 0.14 250);
+	--admonitions-color-important: oklch(0.75 0.14 310);
+	--admonitions-color-warning: oklch(0.75 0.14 60);
+	--admonitions-color-caution: oklch(0.65 0.2 25);
+	--toc-badge-bg: var(--btn-regular-bg);
+	--toc-btn-hover: oklch(0.22 0.02 var(--hue));
+	--toc-btn-active: oklch(0.25 0.02 var(--hue));
+	--toc-item-active: oklch(0.35 0.07 var(--hue));
+}
+
+/* ============ 基础 ============ */
+html {
+	scroll-behavior: smooth;
+}
+body {
+	min-height: 100vh;
+	background-color: var(--page-bg);
+	color: var(--deep-text);
+	font-family: "Roboto", "Helvetica Neue", Arial, "Microsoft YaHei", "微软雅黑",
+		"PingFang SC", "HanSansSC", sans-serif;
+}
+code,
+pre {
+	font-family: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace,
+		SFMono-Regular, Menlo, monospace;
+}
+::selection {
+	background-color: var(--selection-bg);
+}
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+::-webkit-scrollbar-thumb {
+	background: var(--scrollbar-bg);
+	border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: var(--scrollbar-bg-hover);
+}
+::-webkit-scrollbar-thumb:active {
+	background: var(--scrollbar-bg-active);
+}
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+/* ============ fuwari 组件类（main.css 移植） ============ */
+@layer components {
+	.card-base {
+		@apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg)] transition;
+	}
+	.card-shadow {
+		@apply drop-shadow-[0_2px_4px_rgba(0,0,0,0.005)];
+	}
+	.expand-animation {
+		@apply relative before:ease-out before:transition active:bg-none hover:before:bg-[var(--btn-plain-bg-hover)] active:before:bg-[var(--btn-plain-bg-active)] z-0 before:absolute before:rounded-[inherit] before:inset-0 before:scale-[0.85] hover:before:scale-100 before:-z-10;
+	}
+	.link {
+		@apply transition rounded-md p-1 -m-1 expand-animation;
+	}
+	.link-lg {
+		@apply transition rounded-md p-1.5 -m-1.5 expand-animation;
+	}
+	.float-panel {
+		@apply top-[5.25rem] rounded-[var(--radius-large)] overflow-hidden bg-[var(--float-panel-bg)] transition shadow-xl dark:shadow-none;
+	}
+	.float-panel-closed {
+		@apply -translate-y-1 opacity-0 pointer-events-none;
+	}
+	.btn-card {
+		@apply transition flex items-center justify-center bg-[var(--card-bg)] hover:bg-[var(--btn-card-bg-hover)] active:bg-[var(--btn-card-bg-active)];
+	}
+	.btn-card.disabled {
+		@apply pointer-events-none text-black/10 dark:text-white/10;
+	}
+	.btn-plain {
+		@apply transition relative flex items-center justify-center bg-none text-black/75 hover:text-[var(--primary)] dark:text-white/75 dark:hover:text-[var(--primary)];
+	}
+	.btn-plain:not(.scale-animation) {
+		@apply hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)];
+	}
+	.btn-plain.scale-animation {
+		@apply expand-animation;
+	}
+	.btn-plain.scale-animation.current-theme-btn {
+		@apply before:scale-100 before:opacity-100 before:bg-[var(--btn-plain-bg-hover)] text-[var(--primary)];
+	}
+	.btn-regular {
+		@apply transition flex items-center justify-center bg-[var(--btn-regular-bg)] hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)] text-[var(--btn-content)] dark:text-white/75;
+	}
+	.link-underline {
+		@apply transition underline decoration-2 decoration-dashed decoration-[var(--link-underline)] hover:decoration-[var(--link-hover)] active:decoration-[var(--link-active)] underline-offset-[0.25rem];
+	}
+	.text-90 {
+		@apply text-black/90 dark:text-white/90;
+	}
+	.text-75 {
+		@apply text-black/75 dark:text-white/75;
+	}
+	.text-50 {
+		@apply text-black/50 dark:text-white/50;
+	}
+	.text-30 {
+		@apply text-black/30 dark:text-white/30;
+	}
+	.text-25 {
+		@apply text-black/25 dark:text-white/25;
+	}
+	.meta-icon {
+		@apply w-8 h-8 transition rounded-md flex items-center justify-center bg-[var(--btn-regular-bg)] text-[var(--btn-content)] mr-2;
+	}
+	.with-divider {
+		@apply before:content-['/'] before:ml-1.5 before:mr-1.5 before:text-[var(--meta-divider)] before:text-sm before:font-medium before:first-of-type:hidden before:transition;
+	}
+	.btn-regular-dark {
+		@apply flex items-center justify-center bg-[oklch(0.45_0.01_var(--hue))] hover:bg-[oklch(0.5_0.01_var(--hue))] active:bg-[oklch(0.55_0.01_var(--hue))] dark:bg-[oklch(0.3_0.02_var(--hue))] dark:hover:bg-[oklch(0.35_0.03_var(--hue))] dark:active:bg-[oklch(0.4_0.03_var(--hue))];
+	}
+	.btn-regular-dark.success {
+		@apply bg-[oklch(0.75_0.14_var(--hue))];
+	}
+	.search-panel mark {
+		@apply bg-transparent text-[var(--primary)];
+	}
+	.toc-hide,
+	.toc-not-ready {
+		@apply opacity-0 pointer-events-none;
+	}
+	.hide-scrollbar {
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+	.hide-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+/* ============ 入场动画（transition.css 移植） ============ */
+@keyframes fade-in-up {
+	0% {
+		transform: translateY(2rem);
+		opacity: 0;
+	}
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+.onload-animation {
+	opacity: 0;
+	animation: 300ms fade-in-up;
+	animation-fill-mode: forwards;
+}
+#navbar {
+	animation-delay: 0ms;
+}
+#sidebar {
+	animation-delay: 100ms;
+}
+#content-wrapper {
+	animation-delay: var(--content-delay);
+}
+.footer-anim {
+	animation-delay: 250ms;
+}
+
+/* ============ 文章正文 custom-md ============ */
+.custom-md {
+	@apply text-75;
+}
+.custom-md h1,
+.custom-md h2,
+.custom-md h3,
+.custom-md h4,
+.custom-md h5,
+.custom-md h6 {
+	@apply font-bold text-black/90 dark:text-white/90 mt-8 mb-3 scroll-mt-24;
+}
+.custom-md h1 {
+	@apply text-2xl;
+}
+.custom-md h2 {
+	@apply text-xl;
+}
+.custom-md h3 {
+	@apply text-lg;
+}
+.custom-md .heading-anchor {
+	@apply ml-2 no-underline opacity-0 text-[var(--primary)];
+}
+.custom-md :is(h1, h2, h3, h4, h5, h6):hover .heading-anchor {
+	@apply opacity-100;
+}
+.custom-md p {
+	@apply my-3 leading-7;
+}
+.custom-md a {
+	@apply link-underline text-black/90 dark:text-white/90 font-medium;
+}
+.custom-md ul {
+	@apply list-disc my-2 pl-8 space-y-1 marker:text-[var(--primary)];
+}
+.custom-md ol {
+	@apply list-decimal my-2 pl-8 space-y-1 marker:text-[var(--primary)];
+}
+.custom-md blockquote {
+	@apply border-l-4 border-[var(--primary)] bg-[var(--btn-regular-bg)] rounded-r-xl pl-4 pr-2 py-2 my-4 text-50 italic;
+}
+.custom-md :not(pre) > code {
+	@apply inline-block text-[0.8125rem] font-medium align-middle break-after-all rounded-lg px-[0.325rem] py-[0.125rem] mx-0.5
+	bg-[var(--inline-code-bg)] text-[var(--inline-code-color)] hover:bg-[var(--btn-regular-bg-hover)];
+}
+.custom-md pre {
+	@apply rounded-xl overflow-x-auto my-4 text-[0.9rem] leading-6 border border-[var(--line-divider)];
+	background: var(--codeblock-bg);
+}
+.custom-md pre code {
+	@apply block p-4 bg-transparent text-inherit;
+}
+.custom-md pre ::selection {
+	background-color: var(--codeblock-selection);
+}
+/* shiki 双主题：defaultColor:false 生成 --shiki-light/--shiki-dark 变量 */
+.custom-md pre.shiki span {
+	color: var(--shiki-light);
+}
+:root.dark .custom-md pre.shiki span,
+.dark .custom-md pre.shiki span {
+	color: var(--shiki-dark);
+}
+.custom-md table {
+	@apply my-4 w-full border-collapse text-sm;
+}
+.custom-md th {
+	@apply bg-[var(--btn-regular-bg)] font-bold p-2 border border-[var(--line-divider)];
+}
+.custom-md td {
+	@apply p-2 border border-[var(--line-divider)];
+}
+.custom-md tr:nth-child(2n) td {
+	background: var(--license-block-bg);
+}
+.custom-md img {
+	@apply rounded-xl mx-auto my-4 max-w-full cursor-zoom-in;
+}
+.custom-md hr {
+	@apply border-dashed border-[var(--line-color)] my-6;
+}
+
+/* GitHub Alerts（remarkGithubAlerts 生成） */
+.custom-md .alert {
+	@apply rounded-xl pl-4 pr-3 py-3 my-4 border-l-4;
+	background: var(--btn-regular-bg);
+}
+.custom-md .alert .alert-title {
+	@apply font-bold text-sm mb-1 capitalize;
+}
+.custom-md .alert-note {
+	border-color: var(--admonitions-color-note);
+}
+.custom-md .alert-tip,
+.custom-md .alert-success {
+	border-color: var(--admonitions-color-tip);
+}
+.custom-md .alert-important {
+	border-color: var(--admonitions-color-important);
+}
+.custom-md .alert-warning {
+	border-color: var(--admonitions-color-warning);
+}
+.custom-md .alert-caution {
+	border-color: var(--admonitions-color-caution);
+}
+
+.katex-display {
+	@apply overflow-x-auto overflow-y-hidden py-1;
+}
+
+/* TOC 滚动容器渐隐遮罩 */
+#toc-inner-wrapper {
+	mask-image: linear-gradient(
+		to bottom,
+		transparent 0%,
+		black 2rem,
+		black calc(100% - 2rem),
+		transparent 100%
+	);
+}

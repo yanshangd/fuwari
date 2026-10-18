@@ -1,0 +1,6 @@
+{
+	"name": "one-blog",
+	"buildCommand": "npm run build",
+	"installCommand": "npm install",
+	"nodeVersion": "20.18.0"
+}
