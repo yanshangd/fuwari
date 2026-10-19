@@ -65,6 +65,7 @@ const postKey = (slug) => "post_" + slug.replace(/-/g, "_");
 const IDX_KEY = "posts_index";
 const AUTH_KEY = "auth_config";
 const ABOUT_KEY = "about_body";
+const PROFILE_KEY = "site_profile";
 
 async function blobStore(env) {
 	if (env && env.BLOB_STORE) return env.BLOB_STORE;
@@ -337,9 +338,12 @@ export async function onRequest(context) {
 	if (method === "GET" && seg[0] === "about") {
 		return json({ body: (await kvGet(env, ABOUT_KEY, "")) || "" });
 	}
+	if (method === "GET" && seg[0] === "profile") {
+		return json({ profile: (await kvGet(env, PROFILE_KEY, null)) || {} });
+	}
 
 	// 以下全部需要登录
-	if (["posts", "post", "about", "upload"].includes(seg[0]) && method !== "GET") {
+	if (["posts", "post", "about", "profile", "upload"].includes(seg[0]) && method !== "GET") {
 		const denied = await requireAuth(context);
 		if (denied) return denied;
 	}
@@ -374,6 +378,15 @@ export async function onRequest(context) {
 		const { body } = await readJson(request);
 		await kvPut(env, ABOUT_KEY, String(body || ""));
 		return json({ saved: true });
+	}
+	if (method === "POST" && seg[0] === "profile") {
+		const { name, bio } = await readJson(request);
+		const profile = {
+			name: String(name || "").trim().slice(0, 40),
+			bio: String(bio || "").trim().slice(0, 200),
+		};
+		await kvPut(env, PROFILE_KEY, profile);
+		return json({ saved: true, profile });
 	}
 	if (method === "POST" && seg[0] === "upload") {
 		const name = (url.searchParams.get("name") || "image.png").toLowerCase();

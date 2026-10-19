@@ -10,6 +10,7 @@ import {
 	 Eye,
 } from "lucide-react";
 import type { Post, PostMeta } from "@/lib/types";
+import { siteConfig } from "../../../site.config";
 
 type Session = { setup: boolean; logged_in: boolean };
 
@@ -103,7 +104,7 @@ function AuthCard({ mode, onDone }: { mode: "setup" | "login"; onDone: () => voi
 }
 
 function Dashboard({ onLogout }: { onLogout: () => void }) {
-	const [tab, setTab] = useState<"posts" | "about">("posts");
+	const [tab, setTab] = useState<"posts" | "about" | "profile">("posts");
 	const [posts, setPosts] = useState<PostMeta[] | null>(null);
 	const [editing, setEditing] = useState<Post | null>(null);
 	const [isNew, setIsNew] = useState(false);
@@ -141,6 +142,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
 				<div className="flex gap-2">
 					<TabBtn active={tab === "posts"} onClick={() => setTab("posts")}>文章</TabBtn>
 					<TabBtn active={tab === "about"} onClick={() => setTab("about")}>关于页</TabBtn>
+					<TabBtn active={tab === "profile"} onClick={() => setTab("profile")}>站点资料</TabBtn>
 				</div>
 				<button
 					onClick={async () => {
@@ -233,6 +235,12 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
 			{tab === "about" && (
 				<div className="card-base p-4 md:p-6">
 					<AboutForm />
+				</div>
+			)}
+
+			{tab === "profile" && (
+				<div className="card-base p-4 md:p-6">
+					<ProfileForm />
 				</div>
 			)}
 		</div>
@@ -462,6 +470,70 @@ function AboutForm() {
 						setMsg("");
 						try {
 							await api("/api/about", { method: "POST", body: JSON.stringify({ body: md }) });
+							setMsg("已保存");
+						} catch (e) {
+							setMsg(e instanceof Error ? e.message : String(e));
+						} finally {
+							setBusy(false);
+						}
+					}}
+					className="btn-regular rounded-lg h-11 px-6 font-bold active:scale-95 disabled:opacity-50"
+				>
+					<Save className="w-5 h-5 mr-1" /> 保存
+				</button>
+				<span className="text-50 text-sm">{msg}</span>
+			</div>
+		</div>
+	);
+}
+
+function ProfileForm() {
+	const [p, setP] = useState<{ name: string; bio: string } | null>(null);
+	const [busy, setBusy] = useState(false);
+	const [msg, setMsg] = useState("");
+	useEffect(() => {
+		api<{ profile: { name?: string; bio?: string } }>("/api/profile")
+			.then((d) => setP({ name: d.profile.name ?? "", bio: d.profile.bio ?? "" }))
+			.catch(() => setP({ name: "", bio: "" }));
+	}, []);
+	if (p === null) return <Loading />;
+	return (
+		<div className="space-y-3">
+			<h2 className="text-xl font-bold text-90 flex items-center gap-2">
+				<ImagePlus className="w-5 h-5" /> 站点资料（侧栏头像下方）
+			</h2>
+			<div className="text-50 text-sm">留空则用 site.config.ts 里的默认文案。</div>
+			<Field label={`昵称 ${p.name.length}/40`}>
+				<input
+					value={p.name}
+					maxLength={40}
+					placeholder={siteConfig.name}
+					onChange={(e) => setP({ ...p, name: e.target.value })}
+					className={inputCls}
+				/>
+			</Field>
+			<Field label={`简介 ${p.bio.length}/200`}>
+				<textarea
+					value={p.bio}
+					maxLength={200}
+					rows={3}
+					placeholder={siteConfig.bio}
+					onChange={(e) => setP({ ...p, bio: e.target.value })}
+					className={bodyInputCls("min-h-[5rem]")}
+				/>
+			</Field>
+			<div className="flex items-center gap-3">
+				<button
+					disabled={busy}
+					onClick={async () => {
+						setBusy(true);
+						setMsg("");
+						try {
+							const d = await api<{ profile: { name?: string; bio?: string } }>("/api/profile", {
+								method: "POST",
+								body: JSON.stringify(p),
+							});
+							setP({ name: d.profile.name ?? "", bio: d.profile.bio ?? "" });
 							setMsg("已保存");
 						} catch (e) {
 							setMsg(e instanceof Error ? e.message : String(e));

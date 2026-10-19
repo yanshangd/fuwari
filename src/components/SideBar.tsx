@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BookOpen } from "lucide-react";
 import { getPublishedPosts } from "@/lib/server/api";
 import type { PostMeta } from "@/lib/types";
+import type { Profile as ProfileInfo } from "@/lib/server/api";
 import Profile from "./Profile";
 import CollapsibleWidget from "./CollapsibleWidget";
 
@@ -14,7 +15,7 @@ function deriveCounts(posts: PostMeta[], pick: (p: PostMeta) => string[]) {
 		.map(([name, count]) => ({ name, count }));
 }
 
-export default async function SideBar() {
+export default async function SideBar({ profile }: { profile: ProfileInfo }) {
 	let posts: PostMeta[] = [];
 	try {
 		posts = await getPublishedPosts();
@@ -26,7 +27,7 @@ export default async function SideBar() {
 	return (
 		<aside id="sidebar" className="w-full lg:max-w-[17.5rem]">
 			<div className="flex flex-col w-full gap-4 mb-4 onload-animation">
-				<Profile />
+				<Profile {...profile} />
 			</div>
 			<div className="transition-all duration-700 flex flex-col w-full gap-4 sticky top-4">
 				<CollapsibleWidget

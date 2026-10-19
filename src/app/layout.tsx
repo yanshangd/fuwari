@@ -6,6 +6,7 @@ import "@fontsource-variable/jetbrains-mono";
 import "katex/dist/katex.min.css";
 import "./globals.css";
 import { siteConfig } from "../../site.config";
+import { getProfile, type Profile } from "@/lib/server/api";
 import Navbar from "@/components/Navbar";
 import SideBar from "@/components/SideBar";
 import Footer from "@/components/Footer";
@@ -45,7 +46,13 @@ try {
 } catch (e) {}
 `;
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+	let profile: Profile = {};
+	try {
+		profile = await getProfile();
+	} catch {
+		profile = {}; // KV 不可用时回落到 site.config.ts 默认文案
+	}
 	return (
 		<html
 			lang="zh-CN"
@@ -64,16 +71,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				</div>
 				<div className="max-w-[var(--page-width)] mx-auto px-0 md:px-4 pt-4">
 					<div className="grid grid-cols-1 lg:grid-cols-[17.5rem_auto] gap-4 w-full">
-						<SideBar />
+						<SideBar profile={profile} />
 						<main className="min-w-0">
 							<div id="content-wrapper" className="onload-animation">
 								{children}
 								<div className="footer-anim onload-animation lg:hidden mt-6">
-									<Footer />
+									<Footer name={profile.name} />
 								</div>
 							</div>
 							<div className="footer-anim onload-animation hidden lg:block">
-								<Footer />
+								<Footer name={profile.name} />
 							</div>
 						</main>
 					</div>

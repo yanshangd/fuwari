@@ -1,5 +1,6 @@
 import { siteConfig } from "../../site.config";
 import { Github, IdCard, Rss } from "lucide-react";
+import type { Profile as ProfileInfo } from "@/lib/server/api";
 
 // fa6 图标名到 lucide 的简单映射；未知图标退化为字母徽章
 const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -8,7 +9,7 @@ const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
 	twitter: () => <span className="font-black text-lg">𝕏</span>,
 };
 
-export default function Profile() {
+export default function Profile({ name, bio }: ProfileInfo) {
 	const links = siteConfig.links;
 	return (
 		<div className="card-base p-3">
@@ -29,10 +30,10 @@ export default function Profile() {
 			</a>
 			<div className="px-2">
 				<div className="font-bold text-xl text-center mb-1 dark:text-neutral-50 transition">
-					{siteConfig.name}
+					{name || siteConfig.name}
 				</div>
 				<div className="h-1 w-5 bg-[var(--primary)] mx-auto rounded-full mb-2 transition" />
-				<div className="text-center text-neutral-400 mb-2.5 transition">{siteConfig.bio}</div>
+				<div className="text-center text-neutral-400 mb-2.5 transition">{bio || siteConfig.bio}</div>
 				<div className="flex flex-wrap gap-2 justify-center mb-1">
 					{links.map((item) => {
 						const Icon = ICONS[item.icon] ?? null;

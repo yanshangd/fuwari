@@ -50,6 +50,11 @@ export const getSearchHits = (q: string, full = false) =>
 
 export const getAbout = () => getJson<{ body: string }>("/api/about").then((d) => d.body);
 
+export type Profile = { name?: string; bio?: string };
+
+export const getProfile = () =>
+	getJson<{ profile: Profile }>("/api/profile").then((d) => d.profile);
+
 export const getPostSlugs = async () => {
 	const posts = await getPublishedPosts();
 	return posts.filter((p) => !p.draft).map((p) => p.slug);
