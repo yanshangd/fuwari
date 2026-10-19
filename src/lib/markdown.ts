@@ -122,6 +122,7 @@ export async function renderMarkdown(
 function stripMarkdown(md: string) {
 	return md
 		.replace(/```[\s\S]*?```/g, " ")
+		.replace(/<[^>]*>/g, " ") // 内嵌 HTML（文首卡片等）不计入阅读时长
 		.replace(/!?\[([^\]]*)\]\([^)]*\)/g, "$1")
 		.replace(/[#>*_~`|-]/g, " ")
 		.replace(/\s+/g, " ");

@@ -330,6 +330,40 @@ pre {
 	@apply border-dashed border-[var(--line-color)] my-6;
 }
 
+/* 文首官网卡片：文章正文用 <a class="ext-card"> 直出（allowDangerousHtml + rehype-raw） */
+.custom-md a.ext-card {
+	@apply my-5 flex items-center gap-4 rounded-[var(--radius-large)] border p-4 no-underline transition;
+	background: var(--card-bg);
+	border-color: var(--line-divider);
+}
+.custom-md a.ext-card:hover {
+	@apply border-[var(--primary)] bg-[var(--btn-regular-bg-hover)];
+}
+.custom-md a.ext-card svg {
+	@apply h-5 w-5;
+}
+.custom-md a.ext-card .ext-card-icon {
+	@apply flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--btn-regular-bg)] text-[var(--primary)] transition;
+}
+.custom-md a.ext-card:hover .ext-card-icon {
+	@apply bg-[var(--card-bg)];
+}
+.custom-md a.ext-card .ext-card-text {
+	@apply min-w-0 flex-1;
+}
+.custom-md a.ext-card .ext-card-label {
+	@apply block text-xs text-black/50 dark:text-white/50;
+}
+.custom-md a.ext-card .ext-card-host {
+	@apply block truncate font-semibold text-black/90 dark:text-white/90;
+}
+.custom-md a.ext-card .ext-card-arrow {
+	@apply shrink-0 text-black/30 transition dark:text-white/30;
+}
+.custom-md a.ext-card:hover .ext-card-arrow {
+	@apply translate-x-0.5 text-[var(--primary)];
+}
+
 /* GitHub Alerts（remarkGithubAlerts 生成） */
 .custom-md .alert {
 	@apply rounded-xl pl-4 pr-3 py-3 my-4 border-l-4;

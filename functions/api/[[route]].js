@@ -165,6 +165,7 @@ function plainText(md) {
 	return String(md || "")
 		.replace(/```[\s\S]*?```/g, " ")
 		.replace(/`[^`]*`/g, " ")
+		.replace(/<[^>]*>/g, " ") // 正文允许内嵌 HTML（如文首卡片），摘要只要文字
 		.replace(/!?\[([^\]]*)\]\([^)]*\)/g, "$1")
 		.replace(/^[#>*+\-|\s]+/gm, " ")
 		.replace(/[#*_>~|`\[\]]/g, " ")
