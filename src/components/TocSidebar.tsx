@@ -1,10 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import type { TocItem } from "@/lib/markdown";
 
 // fuwari 式侧边目录：右侧固定面板 + 滚动高亮
 export default function TocSidebar({ items }: { items: TocItem[] }) {
 	const [active, setActive] = useState("");
+	const [mounted, setMounted] = useState(false);
+	useEffect(() => setMounted(true), []);
 	useEffect(() => {
 		if (!items.length) return;
 		const onScroll = () => {
@@ -20,11 +23,13 @@ export default function TocSidebar({ items }: { items: TocItem[] }) {
 		return () => window.removeEventListener("scroll", onScroll);
 	}, [items]);
 
-	if (!items.length) return null;
-	return (
+	// .onload-animation 的 animation-fill-mode: forwards 会永久留下 transform，
+	// fixed 后代会被它锚住，所以目录必须挂到 body 上
+	if (!items.length || !mounted) return null;
+	return createPortal(
 		<div
 			id="toc-wrapper"
-			className="hidden 2xl:block transition fixed top-24 right-4 w-[11rem] max-h-[70vh] overflow-y-auto hide-scrollbar z-40"
+			className="hidden 2xl:block transition fixed top-24 right-4 w-[var(--toc-width)] max-w-[13rem] max-h-[70vh] overflow-y-auto hide-scrollbar z-40"
 		>
 			<div id="toc" className="flex flex-col gap-1">
 				{items.map((it) => (
@@ -42,6 +47,7 @@ export default function TocSidebar({ items }: { items: TocItem[] }) {
 					</a>
 				))}
 			</div>
-		</div>
+		</div>,
+		document.body,
 	);
 }

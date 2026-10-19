@@ -7,6 +7,8 @@
 	--radius-large: 1rem;
 	--content-delay: 150ms;
 	--page-width: 75rem;
+	/* 目录面板占正文右侧留白，宽度随视口算，写死会压到正文卡片上 */
+	--toc-width: calc((100vw - var(--page-width)) / 2 - 1rem);
 	--hue: 250;
 }
 
