@@ -343,10 +343,10 @@ function PostForm({
 				<Field label="Slug（仅小写字母数字-_）">
 					<input
 						value={post.slug}
-						disabled={!isNew}
+						readOnly={!isNew}
 						onChange={(e) => set("slug", e.target.value)}
 						placeholder="my-first-post"
-						className={inputCls}
+						className={`${inputCls} ${isNew ? "" : "opacity-60"}`}
 					/>
 				</Field>
 				<Field label="发布日期">
