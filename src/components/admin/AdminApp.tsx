@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from "react";
 import {
 	ImagePlus,
+	IdCard,
 	LogOut,
 	Plus,
 	Save,
@@ -500,7 +501,7 @@ function ProfileForm() {
 	return (
 		<div className="space-y-3">
 			<h2 className="text-xl font-bold text-90 flex items-center gap-2">
-				<ImagePlus className="w-5 h-5" /> 站点资料（侧栏头像下方）
+				<IdCard className="w-5 h-5" /> 站点资料（侧栏头像下方）
 			</h2>
 			<div className="text-50 text-sm">留空则用 site.config.ts 里的默认文案。</div>
 			<Field label={`昵称 ${p.name.length}/40`}>
