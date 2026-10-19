@@ -13,6 +13,16 @@ import BackToTop from "@/components/BackToTop";
 
 export const dynamic = "force-dynamic";
 
+// fuwari 原版默认图标：按明暗主题各出 4 个尺寸
+const favicons = ["light", "dark"].flatMap((theme) =>
+	[32, 128, 180, 192].map((size) => ({
+		url: `/favicon/favicon-${theme}-${size}.png`,
+		type: "image/png",
+		sizes: `${size}x${size}`,
+		media: `(prefers-color-scheme: ${theme})`,
+	})),
+);
+
 export const metadata: Metadata = {
 	title: {
 		default: `${siteConfig.title} - ${siteConfig.subtitle}`,
@@ -20,7 +30,7 @@ export const metadata: Metadata = {
 	},
 	description: siteConfig.subtitle,
 	metadataBase: siteConfig.url ? new URL(siteConfig.url) : undefined,
-	icons: { icon: "/assets/avatar.svg" },
+	icons: { icon: favicons },
 	other: { rss: "/rss.xml" },
 };
 

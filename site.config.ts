@@ -20,7 +20,7 @@ export const siteConfig = {
 		fixed: true,
 	},
 	postsPerPage: 5,
-	avatar: "/assets/avatar.svg",
+	avatar: "/assets/avatar.png",
 	name: "站长",
 	bio: "这里写自我介绍。文章存 EdgeOne KV，图片存 Blob。",
 	links: [{ name: "RSS", url: "/rss.xml", icon: "rss" }] as SocialLink[],
