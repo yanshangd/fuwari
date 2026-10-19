@@ -395,9 +395,8 @@ function PostForm({
 				<textarea
 					value={post.body}
 					onChange={(e) => set("body", e.target.value)}
-					rows={18}
 					spellCheck={false}
-					className={`${inputCls} font-mono text-sm leading-6 resize-y`}
+					className={bodyInputCls("min-h-[60vh]")}
 					placeholder={"# 标题\n\n支持 GFM、代码块、$math$、> [!NOTE] 提示块…"}
 				/>
 			</Field>
@@ -418,8 +417,12 @@ function PostForm({
 	);
 }
 
-const inputCls =
-	"w-full h-11 rounded-lg bg-[var(--btn-regular-bg)] px-4 outline-none text-75 focus:bg-[var(--btn-regular-bg-hover)] transition disabled:opacity-50";
+const fieldCls =
+	"w-full rounded-lg bg-[var(--btn-regular-bg)] px-4 outline-none text-75 focus:bg-[var(--btn-regular-bg-hover)] transition disabled:opacity-50";
+const inputCls = `${fieldCls} h-11`;
+// 高度只由 min-h 决定，否则 textarea 会被 h-11 压成单行
+const bodyInputCls = (minH: string) =>
+	`${fieldCls} py-3 font-mono text-sm leading-6 resize-y ${minH}`;
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
 	return (
@@ -448,9 +451,8 @@ function AboutForm() {
 			<textarea
 				value={md}
 				onChange={(e) => setMd(e.target.value)}
-				rows={16}
 				spellCheck={false}
-				className={`${inputCls} font-mono text-sm leading-6 resize-y`}
+				className={bodyInputCls("min-h-[45vh]")}
 			/>
 			<div className="flex items-center gap-3">
 				<button
