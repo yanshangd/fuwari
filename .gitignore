@@ -4,6 +4,7 @@ out
 .edgeone-dev
 .edgeone
 *.log
+.env
 .env*.local
 tmp-*
 /fuwari-src/

@@ -23,17 +23,12 @@ export const siteConfig = {
 	avatar: "/assets/avatar.svg",
 	name: "站长",
 	bio: "这里写自我介绍。文章存 EdgeOne KV，图片存 Blob。",
-	links: [
-		{ name: "GitHub", url: "https://github.com", icon: "github" },
-		{ name: "RSS", url: "/rss.xml", icon: "rss" },
-	] as SocialLink[],
+	links: [{ name: "RSS", url: "/rss.xml", icon: "rss" }] as SocialLink[],
 	navLinks: [
 		{ name: "首页", path: "/" },
 		{ name: "归档", path: "/archive" },
 		{ name: "关于", path: "/about" },
-		{ name: "管理", path: "/admin" },
-		{ name: "GitHub", path: "https://github.com", external: true },
-	],
+	] as NavLink[],
 	footer: {
 		since: 2026,
 	},
