@@ -42,12 +42,13 @@ node scripts/smoke.mjs   # 接口回归：鉴权、增删查、搜索、上传�
 1. KV 命名空间已建好并以 **`blog_ugc`** 绑定到本项目。
 2. Blob 命名空间名为 **`blog-assets`**。
 
+线上项目是 **one-blog**，由 GitHub 仓库 `yanshangd/fuwari` 的 `main` 分支驱动（Provider=Github 的项目不能 CLI 直传），推 `main` 即触发构建：
+
 ```bash
-edgeone makers deploy . -e production -n edgeone-blog   # 先有 production release
-edgeone makers deploy . -e preview    -n edgeone-blog   # 之后的预览验证
+git push origin main
 ```
 
-新项目的 preview 环境要求已存在一次 production 部署，首次上线只能走 production。
-上线后先访问 `/api/health`，返回 `{kv:true, kvSource:"env"|"global", hasAuth:false, ...}` 说明 KV 通了；再进 `/admin` 设密码。
+对外地址是自定义域名 `https://blog.coosspadger.cn`，`site.config.ts` 的 `url` 要与它一致——RSS / sitemap / robots / OG 的绝对地址都取它；留空则退回按请求头 `x-forwarded-proto` + `host` 推断。
 
-`site.config.ts` 里的 `url` 决定 RSS / sitemap 里的绝对地址，换成正式域名后要改。
+新项目 preview 环境要求已存在一次 production 部署，首次上线只能走 production。
+上线后先访问 `/api/health`，返回 `{kv:true, kvSource:"env"|"global", hasAuth:false, ...}` 说明 KV 通了；再进 `/admin` 设密码（setup 只能执行一次）。

@@ -14,7 +14,7 @@ export const siteConfig = {
 	title: "My Blog",
 	subtitle: "EdgeOne KV 驱动的博客",
 	lang: "zh_CN",
-	url: "", // 部署域名，留空则从请求头推断
+	url: "https://blog.coosspadger.cn", // 部署域名，留空则从请求头推断
 	themeColor: {
 		hue: 250, // 0-360；fixed=true 时访客看不到换色器
 		fixed: true,
