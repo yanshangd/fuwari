@@ -38,7 +38,7 @@ let highlighterPromise: Promise<Highlighter> | null = null;
 function getHighlighter() {
 	if (!highlighterPromise) {
 		highlighterPromise = createHighlighter({
-			themes: ["github-light", "github-dark"],
+			themes: ["github-dark"],
 			langs: LANGS,
 		});
 	}
@@ -106,10 +106,7 @@ export async function renderMarkdown(
 		.use(rehypeSlug)
 		.use(katex, { throwOnError: false, strict: false })
 		.use(collectToc, toc, tocDepth)
-		.use(rehypeShikiFromHighlighter, hl, {
-			themes: { light: "github-light", dark: "github-dark" },
-			defaultColor: false,
-		})
+		.use(rehypeShikiFromHighlighter, hl, { themes: { light: "github-dark" } })
 		.use(autolinkHeadings as any, {
 			behavior: "append",
 			properties: { className: ["heading-anchor"], ariaHidden: true },

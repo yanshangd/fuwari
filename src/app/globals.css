@@ -306,13 +306,10 @@ pre {
 .custom-md pre ::selection {
 	background-color: var(--codeblock-selection);
 }
-/* shiki 双主题：defaultColor:false 生成 --shiki-light/--shiki-dark 变量 */
-.custom-md pre.shiki span {
-	color: var(--shiki-light);
-}
-:root.dark .custom-md pre.shiki span,
-.dark .custom-md pre.shiki span {
-	color: var(--shiki-dark);
+/* 代码块底色两档主题下都是深色（--codeblock-bg），因此高亮固定用 github-dark */
+.custom-md pre.shiki {
+	/* shiki 会写内联 background-color，这里用主题自己的底色盖掉 */
+	background: var(--codeblock-bg) !important;
 }
 .custom-md table {
 	@apply my-4 w-full border-collapse text-sm;
