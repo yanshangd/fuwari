@@ -3,7 +3,7 @@ import ArchivePanel from "@/components/ArchivePanel";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = { title: "归档" };
+export const metadata = { title: "文章" };
 
 export default async function Archive({
 	searchParams,

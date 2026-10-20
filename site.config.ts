@@ -26,7 +26,7 @@ export const siteConfig = {
 	links: [{ name: "RSS", url: "/rss.xml", icon: "rss" }] as SocialLink[],
 	navLinks: [
 		{ name: "首页", path: "/" },
-		{ name: "归档", path: "/archive" },
+		{ name: "文章", path: "/archive" },
 		{ name: "关于", path: "/about" },
 	] as NavLink[],
 	footer: {
