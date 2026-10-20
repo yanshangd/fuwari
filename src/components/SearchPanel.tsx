@@ -56,7 +56,7 @@ export default function SearchPanel({ className }: { className?: string }) {
 				onClick={() => setOpen((v) => !v)}
 				className="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90"
 			>
-				{open ? <X className="text-[1.25rem]" /> : <Search className="text-[1.25rem]" />}
+				{open ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
 			</button>
 			<div
 				id="search-panel"
