@@ -11,8 +11,8 @@ export interface SocialLink {
 }
 
 export const siteConfig = {
-	title: "My Blog",
-	subtitle: "EdgeOne KV 驱动的博客",
+	title: "沐兮的小站",
+	subtitle: "有趣的地方",
 	lang: "zh_CN",
 	url: "https://blog.coosspadger.cn", // 部署域名，留空则从请求头推断
 	themeColor: {
@@ -21,8 +21,8 @@ export const siteConfig = {
 	},
 	postsPerPage: 5,
 	avatar: "/assets/avatar.png",
-	name: "站长",
-	bio: "这里写自我介绍。文章存 EdgeOne KV，图片存 Blob。",
+	name: "沐兮",
+	bio: "有趣的地方",
 	links: [{ name: "RSS", url: "/rss.xml", icon: "rss" }] as SocialLink[],
 	navLinks: [
 		{ name: "首页", path: "/" },
