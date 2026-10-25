@@ -50,7 +50,9 @@ export const getSearchHits = (q: string, full = false) =>
 
 export const getAbout = () => getJson<{ body: string }>("/api/about").then((d) => d.body);
 
-export type Profile = { name?: string; bio?: string };
+export type SocialLinkItem = { name: string; url: string; icon?: string };
+
+export type Profile = { name?: string; bio?: string; links?: SocialLinkItem[] };
 
 export const getProfile = () =>
 	getJson<{ profile: Profile }>("/api/profile").then((d) => d.profile);

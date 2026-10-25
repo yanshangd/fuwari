@@ -254,6 +254,22 @@ async function handleSearch(context) {
 
 // ---------- 入口路由 ----------
 
+// 侧栏社交链接：图标只认前端有映射的名字，地址只认 http(s)、mailto 与站内路径，挡掉 javascript:/data:
+const LINK_ICONS = new Set(["rss", "github", "twitter", "telegram", "mail", "youtube", "instagram", "link", "message"]);
+function cleanLinks(links) {
+	if (!Array.isArray(links)) return [];
+	return links
+		.slice(0, 6)
+		.map((l) => {
+			const name = String(l?.name || "").trim().slice(0, 20);
+			const url = String(l?.url || "").trim().slice(0, 200);
+			const icon = String(l?.icon || "").trim().toLowerCase();
+			if (!name || !/^(https?:\/\/|mailto:|\/(?!\/))/i.test(url)) return null;
+			return { name, url, icon: LINK_ICONS.has(icon) ? icon : "" };
+		})
+		.filter(Boolean);
+}
+
 export async function onRequest(context) {
 	const { request, env } = context;
 	const url = new URL(request.url);
@@ -380,10 +396,13 @@ export async function onRequest(context) {
 		return json({ saved: true });
 	}
 	if (method === "POST" && seg[0] === "profile") {
-		const { name, bio } = await readJson(request);
+		const { name, bio, links } = await readJson(request);
+		const prev = (await kvGet(env, PROFILE_KEY, null)) || {};
 		const profile = {
 			name: String(name || "").trim().slice(0, 40),
 			bio: String(bio || "").trim().slice(0, 200),
+			// 请求里没带 links 时保留原值，避免旧表单把已配好的链接清空
+			links: links === undefined ? (Array.isArray(prev.links) ? cleanLinks(prev.links) : []) : cleanLinks(links),
 		};
 		await kvPut(env, PROFILE_KEY, profile);
 		return json({ saved: true, profile });

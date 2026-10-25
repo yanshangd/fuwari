@@ -1,16 +1,22 @@
 import { siteConfig } from "../../site.config";
-import { Github, IdCard, Rss } from "lucide-react";
+import { Github, IdCard, Instagram, Link2, Mail, MessageCircle, Rss, Send, Youtube } from "lucide-react";
 import type { Profile as ProfileInfo } from "@/lib/server/api";
 
-// fa6 图标名到 lucide 的简单映射；未知图标退化为字母徽章
+// 图标名到 lucide 的映射；后台下拉只列这些，未知名字退化成首字母徽章
 const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
 	github: Github,
 	rss: Rss,
+	mail: Mail,
+	link: Link2,
+	message: MessageCircle,
+	telegram: Send,
+	youtube: Youtube,
+	instagram: Instagram,
 	twitter: () => <span className="font-black text-lg">𝕏</span>,
 };
 
-export default function Profile({ name, bio }: ProfileInfo) {
-	const links = siteConfig.links;
+export default function Profile({ name, bio, links }: ProfileInfo) {
+	const items = links && links.length ? links : siteConfig.links;
 	return (
 		<div className="card-base p-3">
 			<a
@@ -35,23 +41,23 @@ export default function Profile({ name, bio }: ProfileInfo) {
 				<div className="h-1 w-5 bg-[var(--primary)] mx-auto rounded-full mb-2 transition" />
 				<div className="text-center text-neutral-400 mb-2.5 transition">{bio || siteConfig.bio}</div>
 				<div className="flex flex-wrap gap-2 justify-center mb-1">
-					{links.map((item) => {
-						const Icon = ICONS[item.icon] ?? null;
+					{items.map((item, i) => {
+						const Icon = ICONS[item.icon || ""] ?? null;
 						return (
 							<a
-								key={item.name}
+								key={`${item.name}-${i}`}
 								rel="me"
 								aria-label={item.name}
 								href={item.url}
 								target={item.url.startsWith("http") ? "_blank" : undefined}
 								className={
-									links.length === 1
+									items.length === 1
 										? "btn-regular rounded-lg h-10 gap-2 px-3 font-bold active:scale-95"
 										: "btn-regular rounded-lg h-10 w-10 active:scale-90"
 								}
 							>
 								{Icon ? <Icon className="text-[1.5rem] w-[1.5rem] h-[1.5rem]" /> : item.name[0]}
-								{links.length === 1 && item.name}
+								{items.length === 1 && item.name}
 							</a>
 						);
 					})}

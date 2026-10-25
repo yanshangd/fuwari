@@ -488,16 +488,41 @@ function AboutForm() {
 	);
 }
 
+type LinkItem = { name: string; url: string; icon: string };
+
+const LINK_ICONS: { value: string; label: string }[] = [
+	{ value: "rss", label: "RSS 订阅" },
+	{ value: "github", label: "GitHub" },
+	{ value: "twitter", label: "X / Twitter" },
+	{ value: "telegram", label: "Telegram" },
+	{ value: "mail", label: "邮箱" },
+	{ value: "youtube", label: "YouTube" },
+	{ value: "instagram", label: "Instagram" },
+	{ value: "message", label: "消息 / 社群" },
+	{ value: "link", label: "普通链接" },
+	{ value: "", label: "无图标（显示首字母）" },
+];
+
+const linkCls = "h-11 w-full rounded-lg bg-[var(--btn-regular-bg)] px-3 outline-none text-75 transition focus:bg-[var(--btn-regular-bg-hover)]";
+
 function ProfileForm() {
-	const [p, setP] = useState<{ name: string; bio: string } | null>(null);
+	const [p, setP] = useState<{ name: string; bio: string; links: LinkItem[] } | null>(null);
 	const [busy, setBusy] = useState(false);
 	const [msg, setMsg] = useState("");
 	useEffect(() => {
-		api<{ profile: { name?: string; bio?: string } }>("/api/profile")
-			.then((d) => setP({ name: d.profile.name ?? "", bio: d.profile.bio ?? "" }))
-			.catch(() => setP({ name: "", bio: "" }));
+		api<{ profile: { name?: string; bio?: string; links?: LinkItem[] } }>("/api/profile")
+			.then((d) =>
+				setP({
+					name: d.profile.name ?? "",
+					bio: d.profile.bio ?? "",
+					links: (d.profile.links ?? []).map((l) => ({ name: l.name ?? "", url: l.url ?? "", icon: l.icon ?? "" })),
+				}),
+			)
+			.catch(() => setP({ name: "", bio: "", links: [] }));
 	}, []);
 	if (p === null) return <Loading />;
+	const setLink = (i: number, patch: Partial<LinkItem>) =>
+		setP({ ...p, links: p.links.map((l, n) => (n === i ? { ...l, ...patch } : l)) });
 	return (
 		<div className="space-y-3">
 			<h2 className="text-xl font-bold text-90 flex items-center gap-2">
@@ -523,6 +548,43 @@ function ProfileForm() {
 					className={bodyInputCls("min-h-[5rem]")}
 				/>
 			</Field>
+			<Field label="社交按钮（侧栏下方一排，最多 6 个；一条都不填就沿用默认）">
+				<div className="space-y-2">
+					<div className="hidden md:grid md:grid-cols-[9rem_1fr_10rem_2.75rem] gap-2 text-50 text-xs px-1">
+						<span>名称</span>
+						<span>地址（http(s):// · mailto: · 站内 / 路径）</span>
+						<span>图标</span>
+						<span />
+					</div>
+					{p.links.map((l, i) => (
+						<div key={i} className="grid grid-cols-1 md:grid-cols-[9rem_1fr_10rem_2.75rem] gap-2 items-center">
+							<input value={l.name} maxLength={20} placeholder="RSS" onChange={(e) => setLink(i, { name: e.target.value })} className={linkCls} />
+							<input value={l.url} maxLength={200} placeholder="/rss.xml" onChange={(e) => setLink(i, { url: e.target.value })} className={linkCls} />
+							<select value={l.icon} onChange={(e) => setLink(i, { icon: e.target.value })} className={linkCls}>
+								{LINK_ICONS.map((o) => (
+									<option key={o.label} value={o.value}>
+										{o.label}
+									</option>
+								))}
+							</select>
+							<button
+								aria-label={`删除第 ${i + 1} 个链接`}
+								onClick={() => setP({ ...p, links: p.links.filter((_, n) => n !== i) })}
+								className="btn-plain rounded-lg h-11 w-11 flex items-center justify-center active:scale-90"
+							>
+								<Trash2 className="w-5 h-5" />
+							</button>
+						</div>
+					))}
+					<button
+						disabled={p.links.length >= 6}
+						onClick={() => setP({ ...p, links: [...p.links, { name: "", url: "", icon: "link" }] })}
+						className="btn-plain rounded-lg h-10 px-4 gap-1.5 font-bold text-sm flex items-center active:scale-95 disabled:opacity-50"
+					>
+						<Plus className="w-4 h-4" /> 加一个按钮
+					</button>
+				</div>
+			</Field>
 			<div className="flex items-center gap-3">
 				<button
 					disabled={busy}
@@ -530,11 +592,15 @@ function ProfileForm() {
 						setBusy(true);
 						setMsg("");
 						try {
-							const d = await api<{ profile: { name?: string; bio?: string } }>("/api/profile", {
+							const d = await api<{ profile: { name?: string; bio?: string; links?: LinkItem[] } }>("/api/profile", {
 								method: "POST",
 								body: JSON.stringify(p),
 							});
-							setP({ name: d.profile.name ?? "", bio: d.profile.bio ?? "" });
+							setP({
+								name: d.profile.name ?? "",
+								bio: d.profile.bio ?? "",
+								links: (d.profile.links ?? []).map((l) => ({ name: l.name ?? "", url: l.url ?? "", icon: l.icon ?? "" })),
+							});
 							setMsg("已保存");
 						} catch (e) {
 							setMsg(e instanceof Error ? e.message : String(e));
